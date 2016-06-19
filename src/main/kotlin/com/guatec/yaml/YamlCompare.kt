@@ -5,7 +5,7 @@ import java.io.FileReader
 
 object YamlCompare {
     fun readMap(fileName: String) : Map<Any,Any> {
-        println(fileName)
+        println("loading: $fileName")
         val reader = YamlReader(FileReader(fileName))
         val obj = reader.read()
         if (obj is Map<*,*>) {
@@ -43,6 +43,7 @@ object YamlCompare {
 
     fun compare(files: List<String>, groupByKeyS:String, printKeys:List<String>) {
         val yamls = files.map { readMap(it) }
+        println("-----")
 
         val groupByKey = groupByKeyS.split(".")
         val grouped = yamls.groupBy {
