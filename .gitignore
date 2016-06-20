@@ -2,3 +2,5 @@
 .kobalt
 kobaltBuild
 local.properties
+*.iml
+.DS_Store
