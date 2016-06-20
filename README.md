@@ -1,5 +1,9 @@
 This program helps compare yaml files (ansible group_vars) to check, for example if the same ip and port are assigned to two instances
 
+### Download
+
+https://bintray.com/pabl0rg/maven/download_file?file_path=com%2Fguatec%2Fyaml-compare%2F0.1%2Fyaml-compare-0.1.jar
+
 ### Usage
 
 ```java -jar yaml-compare-0.1.jar <group-by> <print> [yaml files]```

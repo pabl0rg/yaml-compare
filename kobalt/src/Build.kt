@@ -34,6 +34,8 @@ val p = project {
             manifest {
                 attributes("Main-Class", "com.guatec.yaml.MainKt")
             }
+            mavenJars {
+            }
         }
     }
 
