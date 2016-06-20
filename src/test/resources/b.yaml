@@ -1,0 +1,6 @@
+instances:
+    prod:
+        ip: 1.1.1.1
+        ports:
+            memcache: 12345
+            web: 80
