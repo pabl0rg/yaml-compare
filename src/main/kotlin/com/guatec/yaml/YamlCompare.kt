@@ -6,7 +6,6 @@ import java.io.FileReader
 
 object YamlCompare {
     fun readMap(fileName: String) : Map<Any,Any> {
-        println("loading: $fileName")
         val reader = YamlReader(FileReader(fileName))
         val obj = reader.read()
         if (obj is Map<*,*>) {
@@ -42,15 +41,19 @@ object YamlCompare {
         return null;
     }
 
-    fun compare(files: List<String>, groupByKey:String, rawCheckKeys:List<String>, sparse: Boolean=false) {
-        val yamls = files.map { readMap(it) }
+    fun compare(files: List<String>, groupByKey:String, rawCheckKeys:List<String>, verbose: Boolean=false) {
+        val yamls = files.map {
+            if (verbose)
+                println("loading: $it")
+            readMap(it)
+        }
         println("-----")
 
         val grouped = yamls.groupBy {
             it.getNested(groupByKey)
         }
 
-        //convert wildcard
+        //convert wildcard checkKeys by resolving available keys
         val checkKeys: List<String?> = rawCheckKeys.flatMap { rawPrintKey ->
             var resolved: Any? = null
             if (rawPrintKey.endsWith(".*"))
@@ -67,26 +70,25 @@ object YamlCompare {
             grouped.keys.sortedBy { it.toString() }.forEach { groupKey ->
                 val group = grouped.get(groupKey)!!
 
-                if (sparse) {
+                if (verbose) {
+                    println("\t${groupKey}")
+                    group.forEach { group ->
+                        val name = group["__yaml_file__"]
+                        println("\t\t$name: ${group.getNested(keyToCheck)}")
+                    }
+                } else {
                     val groupsWithCollision = group.groupBy { it.getNested(keyToCheck) }
                             .filterValues { instancesInGroup -> instancesInGroup.size > 1 }
 
                     groupsWithCollision.entries.forEach { groupWithCollision ->
                         if (groupWithCollision.key != null) {
-                            println("\t${groupKey}")
-                            println("\t\t$keyToCheck ${groupWithCollision.key}")
+                            println("group:${groupKey}")
+                            println("\tCOLLISION $keyToCheck: ${groupWithCollision.key}")
                             groupWithCollision.value.forEach {
                                 val name = it["__yaml_file__"]
-                                println("\t\t\t$name")
+                                println("\t\t$name")
                             }
                         }
-                    }
-                } else {
-                    println("\t${groupKey}")
-                    group.forEach { yamlMap ->
-                        //val name = yamlMap.getNested(nameKey, true)
-                        val name = yamlMap["__yaml_file__"]
-                        println("\t\t$name: ${yamlMap.getNested(keyToCheck)}")
                     }
                 }
             }

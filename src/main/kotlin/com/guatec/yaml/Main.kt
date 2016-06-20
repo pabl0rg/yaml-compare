@@ -13,7 +13,7 @@ fun main(args: Array<String>) {
         System.exit(2)
     }
 
-    YamlCompare.compare(options.files, options.groupBy, options.printKeys, !options.verbose)
+    YamlCompare.compare(options.files, options.groupBy, options.printKeys, options.verbose)
 
     println()
 }
