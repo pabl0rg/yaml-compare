@@ -2,7 +2,7 @@ This program helps compare yaml files (ansible group_vars) to check, for example
 
 ### Download
 
-https://bintray.com/pabl0rg/maven/download_file?file_path=com%2Fguatec%2Fyaml-compare%2F0.1%2Fyaml-compare-0.1.jar
+https://github.com/pabl0rg/yaml-compare/releases/download/v0.1/yaml-compare-0.1.jar
 
 ### Usage
 
@@ -54,10 +54,11 @@ Output
 loading: src/test/resources/a.yaml
 loading: src/test/resources/b.yaml
 -----
-	1.1.1.1
+Group: 1.1.1.1
+	instances.*.ports.web
 		src/test/resources/a.yaml: 8080
 		src/test/resources/b.yaml: 80
-	1.1.1.1
+	instances.*.ports.memcache
 		src/test/resources/a.yaml: 12345
 		src/test/resources/b.yaml: 12345
 ```
