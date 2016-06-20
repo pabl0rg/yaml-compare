@@ -12,28 +12,48 @@ For example if we have these two yaml files in group_vars
 instances:
     dev:
         ip: 1.1.1.1
-        port: 12345
+        ports:
+            memcache: 12345
+            web: 8080
 ```
 
 ```
 instances:
     prod:
         ip: 1.1.1.1
-        port: 12345
+        ports:
+            memcache: 12345
+            web: 80
 ```
 
-Running
+### Collision-check mode
 
-```java -jar yaml-compare-0.1.jar instances.*.ip instances.*.port group_vars/*```
+```java -jar yaml-compare-0.1.jar -g instances.*.ip -c instances.*.ports.* -f group_vars/*```
 
-Prints
+Output
 
 ```
-loading: group_vars/a.yml
-loading: group_vars/b.yml
 -----
-instances.*.port:
-    1.1.1.1
-        group_vars/a.yml: 12345
-        group_vars/b.yml: 12345
+group:1.1.1.1
+	COLLISION instances.*.ports.memcache: 12345
+		src/test/resources/a.yaml
+		src/test/resources/b.yaml
+```
+
+### Verbose mode
+
+```java -jar yaml-compare-0.1.jar -g instances.*.ip -c instances.*.ports.* -f group_vars/* -v```
+
+Output
+
+```
+loading: src/test/resources/a.yaml
+loading: src/test/resources/b.yaml
+-----
+	1.1.1.1
+		src/test/resources/a.yaml: 8080
+		src/test/resources/b.yaml: 80
+	1.1.1.1
+		src/test/resources/a.yaml: 12345
+		src/test/resources/b.yaml: 12345
 ```
