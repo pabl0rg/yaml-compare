@@ -1,13 +1,19 @@
 package com.guatec.yaml
 
-fun main(args: Array<String>) {
-    try {
-        val printKeys = args[1].split(",")
-        val files = args.slice(2..args.size - 1)
+import com.beust.jcommander.JCommander
 
-        YamlCompare.compare(files, args[0], printKeys)
+fun main(args: Array<String>) {
+    val options = CommandLineOptions()
+
+    val jcommander = JCommander(options);
+    try {
+        jcommander.parse(*args)
     } catch (e: Exception) {
-        println("\nusage: <group-by> <print> [yaml files]")
+        jcommander.usage()
+        System.exit(2)
     }
+
+    YamlCompare.compare(options.files, options.groupBy, options.printKeys, !options.verbose)
+
     println()
 }

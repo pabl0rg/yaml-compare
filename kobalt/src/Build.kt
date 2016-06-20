@@ -3,8 +3,6 @@ import com.beust.kobalt.plugin.packaging.*
 import com.beust.kobalt.plugin.application.*
 import com.beust.kobalt.plugin.kotlin.*
 
-val repos = repos("https://jitpack.io")
-
 
 val p = project {
 
@@ -22,13 +20,12 @@ val p = project {
     }
 
     dependencies {
-        //compile(file("lib/kotlin-cli-master-1.0-SNAPSHOT.jar"))
+        compile("com.beust:jcommander:1.48")
         compile("com.esotericsoftware.yamlbeans:yamlbeans:1.08")
     }
 
     dependenciesTest {
         compile("org.testng:testng:6.9.9")
-
     }
 
     assemble {
