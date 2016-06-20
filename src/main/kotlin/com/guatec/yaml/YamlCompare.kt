@@ -85,12 +85,10 @@ object YamlCompare {
                             .filterValues { instancesInGroup -> instancesInGroup.size > 1 }
 
                     groupsWithCollision.entries.forEach { groupWithCollision ->
-                        if (groupWithCollision.key != null) {
-                            println("\tCollision @ $keyToCheck: ${groupWithCollision.key}")
-                            groupWithCollision.value.forEach {
-                                val name = it["__yaml_file__"]
-                                println("\t\t$name")
-                            }
+                        println("\tCollision @ $keyToCheck: ${groupWithCollision.key}")
+                        groupWithCollision.value.forEach {
+                            val name = it["__yaml_file__"]
+                            println("\t\t$name")
                         }
                     }
                 }
